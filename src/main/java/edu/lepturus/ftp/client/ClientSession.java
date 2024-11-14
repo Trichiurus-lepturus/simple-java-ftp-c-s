@@ -92,6 +92,7 @@ public class ClientSession {
         byte[] buffer = new byte[UDP_PACKET_SIZE];
         DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
         try {
+            System.out.println("Waiting for server response...");
             udpSocket.setSoTimeout(3 * 1000);
             udpSocket.receive(packet);
             udpSocket.setSoTimeout(1000);

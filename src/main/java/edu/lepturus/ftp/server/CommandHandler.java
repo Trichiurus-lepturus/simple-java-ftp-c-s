@@ -126,7 +126,16 @@ public class CommandHandler {
                 if (args.size() < 2) {
                     throw new ArgumentCountException("Too few arguments!");
                 }
-                sendFileOverUDP(args.get(1));
+                try {
+                    sendFileOverUDP(navigator.get(Paths.get(args.get(1))));
+                } catch (Navigator.NotFileException | NoSuchFileException e) {
+                    try {
+                        tcpOut.write(e.getMessage());
+                        tcpOut.flush();
+                    } catch (IOException ex) {
+                        System.err.println(ex.getMessage());
+                    }
+                }
                 break;
             }
             default: {
@@ -181,11 +190,10 @@ public class CommandHandler {
     /**
      * 使用UDP传输文件（不保证可靠性）
      *
-     * @param filePath 文件路径字符串
+     * @param file 文件路径
      */
-    private void sendFileOverUDP(String filePath) {
+    private void sendFileOverUDP(Path file) {
         try (DatagramSocket udpOut = new DatagramSocket()) {
-            Path file = navigator.get(Paths.get(filePath));
             byte[] fileInfoBytes = FileInfo.fileInfoToBytes(
                     new FileInfo(
                             file.getFileName().toString(),

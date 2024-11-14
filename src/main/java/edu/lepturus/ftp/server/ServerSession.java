@@ -66,6 +66,8 @@ public class ServerSession implements Runnable {
                         commandHandler.handle(args);
                     } catch (CommandHandler.NoSuchCommandException | CommandHandler.ArgumentCountException e) {
                         tcpOut.write(e.getMessage());
+                        tcpOut.newLine();
+                        tcpOut.flush();
                     } finally {
                         tcpOut.write(FileSystems.getDefault().getSeparator() + navigator.getPwd());
                         tcpOut.newLine();

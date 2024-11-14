@@ -25,8 +25,6 @@ public class ClientSession {
     private final Object runLock = new Object();
     private static final long RUN_DELTA = 1;
 
-    private volatile boolean listening;
-
     private static final String PS = "> ";
 
     public ClientSession(
@@ -94,7 +92,7 @@ public class ClientSession {
         byte[] buffer = new byte[UDP_PACKET_SIZE];
         DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
         try {
-            udpSocket.setSoTimeout(30 * 1000);
+            udpSocket.setSoTimeout(3 * 1000);
             udpSocket.receive(packet);
             udpSocket.setSoTimeout(1000);
             FileInfo fileInfo = FileInfo.bytesToFileInfo(packet.getData());

@@ -2,6 +2,7 @@ package edu.lepturus.ftp.server;
 
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -91,6 +92,10 @@ public class Navigator {
     public List<Path> ls(Path path) throws IOException {
         try (Stream<Path> stream = Files.list(resolvePath(path))) {
             return stream.collect(Collectors.toList());
+        } catch (NotDirectoryException e) {
+            List<Path> result = new ArrayList<>();
+            result.add(resolvePath(path));
+            return result;
         }
     }
 

@@ -97,9 +97,11 @@ public class ClientSession {
             udpSocket.receive(packet);
             udpSocket.setSoTimeout(1000);
             FileInfo fileInfo = FileInfo.bytesToFileInfo(packet.getData());
-            Path filePath = ROOT.resolve(fileInfo.getFileName());
-            System.out.println("Start receiving file: " + fileInfo.getFileName());
+            String fileName = fileInfo.getFileName();
             long totalPackets = fileInfo.getPacketCount();
+            System.out.println("Start receiving file: " + fileName);
+            System.out.println("Total packet count: " + totalPackets);
+            Path filePath = ROOT.resolve(fileName);
             try (FileOutputStream fos = new FileOutputStream(filePath.toFile())) {
                 long receivedPackets = 0;
                 while (receivedPackets < totalPackets) {

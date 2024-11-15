@@ -147,15 +147,17 @@ public class ServerSession implements Runnable {
                 case '\'': {
                     if (!inDoubleQuote) {
                         inSingleQuote = !inSingleQuote;
+                    } else {
+                        argBuilder.append('\'');
                     }
-//                    argBuilder.append('\'');
                     break;
                 }
                 case '\"': {
                     if (!inSingleQuote) {
                         inDoubleQuote = !inDoubleQuote;
+                    } else {
+                        argBuilder.append('\"');
                     }
-//                    argBuilder.append('\"');
                     break;
                 }
                 case ' ': {

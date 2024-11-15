@@ -170,6 +170,9 @@ public class CommandHandler {
      * @throws IOException IOException
      */
     private void printStringMatrix(String[][] matrix, BufferedWriter out) throws IOException {
+        if (matrix.length == 0) {
+            return;
+        }
         int[] maxWidths = new int[matrix[0].length];
         for (int col = 0; col < matrix[0].length; ++col) {
             for (String[] row : matrix) {
